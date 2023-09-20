@@ -4,12 +4,36 @@ import skimage.io as io
 import cv2
 import os
 
-original = "images\\tomas.png"
-recortada = "imagesCut\\tomas.png"
-greyscalee = "imagesCut\\tomasGrey.png"
-traspuestaa = "imagesCut\\tomasTraspuesta.png"
+# ========================================================
+#                   MOSTRAR IMAGEN
+# ========================================================
+def mostarImagen(rutaImagen: str):
+    imagen = cv2.imread(rutaImagen)
+    cv2.imshow(rutaImagen, imagen)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    
+    alto, ancho, canales = imagen.shape
 
-def recortar_imagen_v2(ruta_img: str, ruta_img_crop: str, x_inicial: int, x_final: int, y_inicial: int, y_final: int)-> None:
+    print(f"Imagen: {rutaImagen} Alto: {alto}, Ancho: {ancho}")
+    return
+
+
+# ========================================================
+#                 MOSTRAR MATRIZ Y TAMAÑO
+# ========================================================
+def mostrarMatriz(rutaImagen: str):
+    imagen = cv2.imread(rutaImagen)    
+    alto, ancho, canales = imagen.shape
+    print(f"Imagen: {rutaImagen} Alto: {alto}, Ancho: {ancho}")
+    print(imagen)
+    return
+
+# ========================================================
+#                   RECORTAR IMAGEN
+# ========================================================
+
+def recortar_imagen(ruta_img: str, ruta_img_crop: str, x_inicial: int, x_final: int, y_inicial: int, y_final: int)-> None:
     try:
         # Abrir la imagen
         image = cv2.imread(ruta_img)
@@ -23,9 +47,6 @@ def recortar_imagen_v2(ruta_img: str, ruta_img_crop: str, x_inicial: int, x_fina
         print("Imagen recortada con éxito. El tamaño de la imagen es de" + str(image_crop.shape))
     except Exception as e:
         print("Ha ocurrido un error:", str(e))
-        
-recortar_imagen_v2(original,recortada, 0, 300, 0, 300)
-
 
 # ========================================================
 #                       GREYSCALE
@@ -36,17 +57,10 @@ def greyscale(rutaImagen: str, rutaImagenGrey: str):
     print(imagen)
     if imagen is not None:
         alto, ancho, canales = imagen.shape
-        
         for row in range(alto):
             for col in range(ancho):
                 pixel = imagen[row, col]
-
-                #blue_channel = pixel_value[0]
-                #green_channel = pixel_value[1]
-                #red_channel = pixel_value[2]
-                
                 grayscale = sum(pixel) // 3
-
                 imagen[row, col] = [grayscale, grayscale, grayscale]
 
         cv2.imwrite(rutaImagenGrey, imagen)
@@ -74,6 +88,87 @@ def traspuesta(rutaImagen: str, rutaImagenTraspuesta: str):
         cv2.destroyAllWindows()
     else:
         print("Error al cargar la imagen.")
+
+# ========================================================
+#                   MATRIZ INVERSA (EJ 7)
+# ========================================================
+def inversa(rutaImagen: str):
+    imagen = cv2.imread(rutaImagen)
+    # Calculate the determinant of the matrix
+    determinante = np.linalg.det(imagen)
+
+    if determinante != 0:
+        # Calculate the inverse using cv2.invert()
+        matrizInversa = cv2.invert(imagen)
         
-greyscale(recortada, greyscalee)
-traspuesta(recortada, traspuestaa)
+        if matrizInversa[1] is not None:
+            inverse = matrizInversa[1]
+            print("Inverse Matrix:")
+            print(inverse)
+        else:
+            print("Matrix is singular (non-invertible).")
+    else:
+        print("Matrix is singular (non-invertible).")
+    return
+
+# ========================================================
+#              MULTIPLICAR MATRICES (EJ 9)
+# ========================================================
+
+def multiplicar(rutaImagen: str):
+    imagen = cv2.imread(rutaImagen)
+    filas, columnas, canales = imagen.shape
+    matrizIdentidad = np.eye(filas, columnas)
+    print(matrizIdentidad)
+    antiDiagonal = np.fliplr(matrizIdentidad)
+    resultado = np.dot(imagen, antiDiagonal)
+    
+    cv2.imshow('Multiplicar', resultado)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    return
+
+# ========================================================
+#                   NEGATIVO (EJ 10)
+# ========================================================
+def negativo(rutaImagen: str):
+    imagen = cv2.imread(rutaImagen)
+    matrizAuxiliar = np.full_like(imagen, 255)
+    resultado = matrizAuxiliar - imagen
+    
+    cv2.imshow('Negativo', resultado)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    return       
+
+# ========================================================
+#                       MAIN
+# ========================================================
+
+ardillaOriginal = "imagenes\\ardilla.png"
+perroOriginal = "imagenes\\perro.png"
+
+ardillaRecortada = "imagenes\\ardillaRecortada.png"
+perroRecortada = "imagenes\\perroRecortada.png"
+
+ardillaGris = "imagenes\\ardillaGris.png"
+perroGris = "imagenes\\perroGris.png"
+
+#mostarImagen(ardillaOriginal) # EJ 1
+#mostarImagen(perroOriginal) # EJ 1
+
+#recortar_imagen(perroOriginal, perroRecortada, 0, 700, 0, 700)
+#recortar_imagen(ardillaOriginal, ardillaRecortada, 0, 700, 0, 700)
+
+#mostarImagen(ardillaRecortada)
+#mostrarMatriz(ardillaRecortada)
+
+
+# DEL PUNTO 7 EN ADELANTE
+#inversa(ardillaOriginal) # EJ 7
+
+multiplicar(ardillaRecortada)
+#negativo(ardillaRecortada)
+
+
+
