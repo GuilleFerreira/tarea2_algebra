@@ -1,8 +1,5 @@
 import numpy as np
-from skimage.io import imshow, imread
-import skimage.io as io
 import cv2
-import os
 
 
 # ========================================================
@@ -30,7 +27,7 @@ def mostrarImagen(titulo, imagen):
 def cargarImagen(rutaImagen: str):
     imagen = cv2.imread(rutaImagen)
     if imagen is None:
-        print(f"Error al cargar la imagen {rutaImagen}.")
+        print(f"Error al cargar la imagen {rutaImagen}. \n")
         return
     mostrarImagen(rutaImagen, imagen)
     return
@@ -47,7 +44,7 @@ def mostrarMatriz(rutaImagen: str):
         return 
     alto, ancho, canales = imagen.shape
     print(f"Imagen: {rutaImagen} Alto: {alto}, Ancho: {ancho} \n")
-    print(imagen + "\n")
+    print(imagen, "\n")
     return
 
 
@@ -66,9 +63,9 @@ def recortarImagen(ruta_img: str, ruta_img_crop: str, x_inicial: int, x_final: i
         # Guardar la imagen recortada en la ruta indicada
         cv2.imwrite(ruta_img_crop, image_crop)
 
-        print("Imagen recortada con éxito. El tamaño de la imagen es de " + str(image_crop.shape))
+        print("Imagen recortada con éxito. El tamaño de la imagen es de " + str(image_crop.shape) + "\n")
     except Exception as e:
-        print("Ha ocurrido un error:", str(e))
+        print("Ha ocurrido un error:", str(e) + "\n")
 
 
 # ========================================================
@@ -78,7 +75,7 @@ def recortarImagen(ruta_img: str, ruta_img_crop: str, x_inicial: int, x_final: i
 def greyscale(rutaImagen: str, rutaImagenGrey: str):
     imagen = cv2.imread(rutaImagen)
     if imagen is None:
-        print(f"Error al cargar la imagen {rutaImagen}.")
+        print(f"Error al cargar la imagen {rutaImagen}. \n")
         return
     
     imagen = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
@@ -94,15 +91,15 @@ def greyscale(rutaImagen: str, rutaImagenGrey: str):
 def traspuesta(rutaImagen: str):
     imagen = cv2.imread(rutaImagen)
     if imagen is None:
-        print(f"Error al cargar la imagen {rutaImagen}.")
+        print(f"Error al cargar la imagen {rutaImagen}. \n")
         return
     
-    # Obtener la matriz traspuesta de la imagen
-    imagen = np.transpose(imagen, (1, 0, 2))  # Intercambiar las dimensiones 0 y 1
+    imagen = np.transpose(imagen, (1, 0, 2)) # Obtener la matriz traspuesta de la imagen
 
     mostrarImagen(f"Imagen Traspuesta {rutaImagen}", imagen)
     print(f"Matriz traspuesta {rutaImagen}: \n", imagen, "\n")
     return
+
 
 # ========================================================
 #                   MATRIZ INVERSA (EJ 7)
@@ -111,27 +108,18 @@ def traspuesta(rutaImagen: str):
 def inversa(rutaImagen: str):
     imagen = cv2.imread(rutaImagen)
     if imagen is None:
-        print(f"Error al cargar la imagen {rutaImagen}.")
+        print(f"Error al cargar la imagen {rutaImagen}. \n")
         return
     
-    imagen = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
-    # Calcular el determinante de la matriz
-    determinante = np.linalg.det(imagen)
+    imagen = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY) # Convertir la imagen a escala de grises
+    determinante = np.linalg.det(imagen) # Calcular el determinante de la matriz
 
     if determinante != 0:
-        matrizImagen = np.array(imagen, dtype=np.float32)
-        # Calcular la inversa de la matriz
-        matrizInversa = np.linalg.pinv(matrizImagen)
-        
-        if matrizInversa[1] is not None:
-            inverse = matrizInversa[1]
-            print("Matriz Inversa:")
-            print(inverse)
-            mostrarImagen("Inversa", inverse)
-        else:
-            print("No existe inversa para esta imagen.")
+        matrizInversa = np.linalg.inv(imagen) # Calcular la inversa de la matriz
+        print(f"Matriz Inversa {rutaImagen}: \n")
+        print(matrizInversa, "\n")
     else:
-        print("No existe inversa para esta imagen.")
+        print("No existe inversa para esta imagen. \n")
     return
 
 
@@ -142,10 +130,10 @@ def inversa(rutaImagen: str):
 def multiplicarPorEscalar(rutaImagen: str):
     imagen = cv2.imread(rutaImagen)
     if imagen is None:
-        print(f"Error al cargar la imagen {rutaImagen}.")
+        print(f"Error al cargar la imagen {rutaImagen}. \n")
         return
     imagen = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
-    
+
     # Escalares. 
     escalar1 = 10 # CASO: escalar > 1
     escalar2 = 0.5 # CASO: 0 < escalar 1 <
@@ -171,7 +159,7 @@ def multiplicarPorEscalar(rutaImagen: str):
 def multiplicar(rutaImagen: str):
     imagen = cv2.imread(rutaImagen)
     if imagen is None:
-        print(f"Error al cargar la imagen {rutaImagen}.")
+        print(f"Error al cargar la imagen {rutaImagen}. \n")
         return
     
     imagen = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
@@ -195,7 +183,7 @@ def multiplicar(rutaImagen: str):
 def negativo(rutaImagen: str):
     imagen = cv2.imread(rutaImagen)
     if imagen is None:
-        print(f"Error al cargar la imagen {rutaImagen}.")
+        print(f"Error al cargar la imagen {rutaImagen}. \n")
         return
     matrizAuxiliar = np.full_like(imagen, 255)
     resultado = matrizAuxiliar - imagen
@@ -208,18 +196,18 @@ def negativo(rutaImagen: str):
 #                       MAIN
 # ========================================================
 
-ardillaOriginal = "imagenes\\ardilla.jpg"
-perroOriginal = "imagenes\\perro.jpg"
+ardillaOriginal = "imagenes/ardilla.jpg"
+perroOriginal = "imagenes/perro.jpg"
 
-ardillaRecortada = "imagenes\\ardillaRecortada.jpg"
-perroRecortada = "imagenes\\perroRecortada.jpg"
+ardillaRecortada = "imagenes/ardillaRecortada.jpg"
+perroRecortada = "imagenes/perroRecortada.jpg"
 
-ardillaGris = "imagenes\\ardillaGris.jpg"
-perroGris = "imagenes\\perroGris.jpg"
+ardillaGris = "imagenes/ardillaGris.jpg"
+perroGris = "imagenes/perroGris.jpg"
 
 # EJ 1 Y 2
-#cargarImagen(ardillaOriginal)
-#cargarImagen(perroOriginal)
+cargarImagen(ardillaOriginal)
+cargarImagen(perroOriginal)
 
 # EJ 3
 #recortarImagen(perroOriginal, perroRecortada, 0, 700, 0, 700)
@@ -239,6 +227,7 @@ perroGris = "imagenes\\perroGris.jpg"
 
 # EJ 7
 #inversa(ardillaGris)
+#inversa(perroGris)
 
 # EJ 8
 #multiplicarPorEscalar(ardillaGris)
