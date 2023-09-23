@@ -156,7 +156,7 @@ def multiplicarPorEscalar(rutaImagen: str):
 #              MULTIPLICAR MATRICES (EJ 9)
 # ========================================================
 
-def multiplicar(rutaImagen: str):
+def multiplicarMatrices(rutaImagen: str):
     imagen = cv2.imread(rutaImagen)
     if imagen is None:
         print(f"Error al cargar la imagen {rutaImagen}. \n")
@@ -210,8 +210,10 @@ cargarImagen(ardillaOriginal)
 cargarImagen(perroOriginal)
 
 # EJ 3
-#recortarImagen(perroOriginal, perroRecortada, 0, 700, 0, 700)
 #recortarImagen(ardillaOriginal, ardillaRecortada, 0, 700, 0, 700)
+#recortarImagen(perroOriginal, perroRecortada, 0, 700, 0, 700)
+#cargarImagen(ardillaRecortada)
+#cargarImagen(perroRecortada)
 
 # EJ 4
 #mostrarMatriz(ardillaRecortada)
@@ -233,7 +235,7 @@ cargarImagen(perroOriginal)
 #multiplicarPorEscalar(ardillaGris)
 
 # EJ 9
-#multiplicar(ardillaGris)
+#multiplicarMatrices(ardillaGris)
 
 # EJ 10
 #negativo(ardillaGris)
