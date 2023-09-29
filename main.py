@@ -217,7 +217,6 @@ cargarImagen(perroOriginal)
 
 # EJ 4
 #mostrarMatriz(ardillaRecortada)
-#mostrarMatriz(perroRecortada)
 
 # EJ 5
 #traspuesta(ardillaRecortada)
