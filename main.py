@@ -135,8 +135,8 @@ def multiplicarPorEscalar(rutaImagen: str):
     imagen = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
 
     # Escalares. 
-    escalar1 = 10 # CASO: escalar > 1
-    escalar2 = 0.5 # CASO: 0 < escalar 1 <
+    escalar1 = 1.7 # CASO: escalar > 1
+    escalar2 = 0.5 # CASO: 0 < escalar < 1
 
     # Multiplicar la matriz por los escalares
     matrizResultante1 = imagen * escalar1
